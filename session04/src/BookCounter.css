@@ -1,0 +1,25 @@
+.booklist {
+    background-color: red;
+        color: #fff;
+        border: 0;
+        padding: 10px 20px;
+        font-weight: bold;
+        border-radius: 5px;
+        font-size: 1.1em;
+    
+}
+
+button {
+    background-color: black;
+    color: white;
+    font-size: 22px;
+}
+
+h1 {
+    font-size: large;
+    font-family:'Times New Roman', Times, serif;
+    font-weight:bold;
+}
+
+
+

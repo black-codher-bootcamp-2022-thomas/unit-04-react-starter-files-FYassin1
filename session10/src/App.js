@@ -5,13 +5,51 @@ import Header from './components/Header';
 import BookList from './components/BookList';
 import About from './pages/About';
 import data from './models/local-books.json';
+import Search from './components/Search';
+import Pagination from './components/Pagination';
+
 
 const App = () => {
   const [books, setBooks] = useState(data);
   const [bookcase, setBookcase] = useState([]);
+ const [startIndex, setStartIndex] = useState(0);
+  const [keyword, setKeyword] = useState ("");
+
+   useEffect(() => {
+    findBooks(keyword, startIndex);
+   }, [startIndex, keyword]);
+   const findBooks = async (keyword, startIndex) => {
+     const url = `https://www.googleapis.com/books/v1/volumes?q=${keyword}&startindex=${startIndex}&maxResults=10&orderBy=newest`;
+
+    console.log("url: ", url);
+     const response = await fetch(url, { method: "GET" });
+   const result = await response.json();
+    console.log(result.items);
+     if (!result.error) {
+       setBooks(result.items);
+     }
+   };
+
+//   async function findBooks (value) { 
+//   const url = `https://www.googleapis.com/books/v1/volumes?q=${value}&filter=paid-ebooks&print-type=books&projection=lite`;
+//  const result = await fetch (url).then((res) => res.json());
+//  if (!results.error) {
+//   setBooks(results.items);
+// }
+
+
+
+
+
+
+  
+
+
+
+
 
   const addToBookcase = (id) => {
-    setBookcase(bookcase.concat(books.filter(book => book.id === id)));
+    setBookcase(books.filter(book => book.id === id));
     setBooks([...books.map(book => {
       if (book.id === id) {
         book.read = true;
@@ -46,7 +84,17 @@ const App = () => {
         <Route exact path="/" element={
           <>
             <Header bookLength={bookcase.length} />
-            <BookList books={books} stored="library" addToBookcase={addToBookcase} removeFromBookcase={removeFromBookcase} />
+            <Search
+            searchBar={findBooks}
+            setKeyword={setKeyword}
+            keyword={keyword} />
+
+            <Pagination 
+            startIndex ={startIndex}
+            setStartIndex ={setStartIndex}
+            />
+
+           <BookList books={books} stored="library" addToBookcase={addToBookcase} removeFromBookcase={removeFromBookcase} />
           </>
         } />
         <Route path="/bookcase" element={

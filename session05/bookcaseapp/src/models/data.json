@@ -1,0 +1,7 @@
+{
+    {"title": "Book1" , "Author": "person1" , "price": "20"},
+    {"title": "Book2" , "Author": "person2" , "price": "30"},
+    {"title": "Book3" , "Author": "person3" , "price": "40"},
+}
+
+//json is the deets of the book needed
